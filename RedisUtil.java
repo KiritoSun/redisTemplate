@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Set;
 
 /*
-**  RedisUtil： 对redis操作的封装
+ **  RedisUtil： 对redis操作的封装
  */
 @Component
 public class RedisUtil {
@@ -19,7 +19,7 @@ public class RedisUtil {
     private RedisTemplate<String,String> template;
 
     /*
-    **  对字符串操作
+     **  对字符串操作
      */
     public void set(String key,String value){
         template.opsForValue().set(key, value);
@@ -27,9 +27,15 @@ public class RedisUtil {
     public String get(String key){
         return template.opsForValue().get(key);
     }
+    public void incr(String key){ 
+        template.opsForValue().increment(key,1); 
+    }
+    public void decr(String key){ 
+        template.opsForValue().increment(key,-1); 
+    }
     /*
      ** 对哈希操作
-      */
+     */
     public void hmset(String key,String field,String value){
         template.opsForHash().put(key,field,value);
     }
@@ -38,7 +44,7 @@ public class RedisUtil {
     }
     /*
      ** 对链表操作
-      */
+     */
     public void lpush(String key,String value){
         template.opsForList().leftPush(key,value);
     }
@@ -59,7 +65,7 @@ public class RedisUtil {
     }
     /*
      ** 对集合操作
-      */
+     */
     public void sadd(String key,String member){
         template.opsForSet().add(key,member);
     }
@@ -85,10 +91,9 @@ public class RedisUtil {
         return template.opsForZSet().range(key,0,template.opsForZSet().size(key));
     }
     /*
-    **  redis的一些其他功能
+     **  redis的一些其他功能
      */
-    public void del(String key){
-        template.delete(key);
+    public void del(String key){ 
+        template.delete(key); 
     }
-
 }
